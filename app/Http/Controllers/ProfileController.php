@@ -11,9 +11,8 @@ class ProfileController extends Controller
         $data = [
             'nama' => $nama,
             'kelas' => $kelas,
-            'npm' => $npm,
-           ];
-              
-        return view('profile', $data);
+            'npm' => $npm
+        ];
+        return view ('profile',$data);
     }
 }
