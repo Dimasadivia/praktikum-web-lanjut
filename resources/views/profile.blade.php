@@ -10,20 +10,26 @@
 <body class="flex justify-center items-center min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
     <div class="text-center bg-white p-12 rounded-[30px] shadow-2xl transform transition duration-500 hover:scale-105 hover:shadow-2xl w-full max-w-3xl">
         <!-- Logo Profile -->
-        <img src="{{ asset('assets/img/Arkanril.jpg') }}" alt="Profile Logo" class="mx-auto mb-8 rounded-full w-40 h-40 object-cover ring-4 ring-purple-500 shadow-lg">
+        @php
+            $defaultFoto = 'path/to/default-foto.jpg'; // Pastikan path ke foto default benar
+            $userFoto = $user->foto ? asset('upload/img/' . $user->foto) : asset($defaultFoto);
+        @endphp
+
+        <img src="{{ $user->foto ? asset('upload/img/' . $user->foto) : asset('path/to/default-foto.jpg') }}" alt="Profile Logo" class="mx-auto mb-8 rounded-full w-40 h-40 object-cover ring-4 ring-purple-500 shadow-lg">
+
 
         <!-- Tabel Data -->
         <div class="space-y-6">
             <div class="flex items-center justify-center bg-gradient-to-r from-purple-400 to-purple-600 p-5 rounded-lg shadow-md hover:from-purple-500 hover:to-purple-700 transition duration-300 hover:scale-110">
-                <span class="text-white text-xl font-semibold">{{ $nama }}</span>
+                <span class="text-white text-xl font-semibold">{{ $user->nama }}</span>
             </div>
 
             <div class="flex items-center justify-center bg-gradient-to-r from-green-400 to-green-600 p-5 rounded-lg shadow-md hover:from-green-500 hover:to-green-700 transition duration-300 hover:scale-110">
-                <span class="text-white text-xl font-semibold">{{ $npm }}</span>
+                <span class="text-white text-xl font-semibold">{{ $user->npm }}</span>
             </div>
 
             <div class="flex items-center justify-center bg-gradient-to-r from-blue-400 to-blue-600 p-5 rounded-lg shadow-md hover:from-blue-500 hover:to-blue-700 transition duration-300 hover:scale-110">
-                <span class="text-white text-xl font-semibold">{{$nama_kelas ?? 'Kelas tidak ditemukan' }}</span>
+                <span class="text-white text-xl font-semibold">{{ $user->kelas->nama_kelas ?? 'Kelas tidak ditemukan' }}</span>
             </div>
         </div>
 

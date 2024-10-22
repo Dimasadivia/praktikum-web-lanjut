@@ -23,8 +23,9 @@ class UserController extends Controller
         $users = $this->userModel->getUser(); // Ambil data user dari model
         
         $data = [ 
-            'title' => 'List of Users', 
-            'users' => $users, // Kirim variabel $users ke view
+            'title' => 'Create User', 
+            'users' => $users,
+            'kelas' => $this->userModel->getUser(), // Kirim variabel $users ke view
         ]; 
 
         return view('list_user', $data); 
@@ -62,12 +63,41 @@ class UserController extends Controller
 
     public function store(Request $request) 
     { 
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'npm' => 'required|string|max:255',
+            'kelas_id' => 'required|integer',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($request->hasFile('foto')){
+            $foto = $request->file('foto');
+            $fotoName = time() . '_' . $foto->getClientOriginalName();
+            $fotoPath = $foto->move(public_path('upload/img'), $fotoName); // Pindahkan ke folder upload/img dengan nama yang baru
+            // $fotoPath = $foto->move (('upload/img'), $foto);
+        } else {
+            $fotoPath = null;
+        }
+
         $this->userModel->create([ 
         'nama' => $request->input('nama'), 
         'npm' => $request->input('npm'), 
-        'kelas_id' => $request->input('kelas_id'), 
+        'kelas_id' => $request->input('kelas_id'),
+        'foto' => $fotoPath ? $fotoName : null,
         ]); 
-        return redirect()->route('users.index'); 
+        return redirect()->to('/user')->with('success','user berhasil ditambahkan'); 
+    }
+
+    public function show($id){
+        $user = $this->userModel->getUser($id);
+
+        $data = [
+            'title' => 'Profile',
+            'user' => $user,
+
+        ];
+
+        return view ('profile', $data);
     }
 
     // public function store(UserRequest $request)
