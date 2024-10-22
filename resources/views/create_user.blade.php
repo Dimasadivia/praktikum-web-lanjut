@@ -16,21 +16,30 @@
             @csrf
             <div class="mb-6">
                 <label for="nama" class="block text-gray-700 text-lg font-semibold mb-2">Nama:</label>
-                <input type="text" id="nama" name="nama" required
+                <input type="text" id="nama" name="nama" 
                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-300 focus:border-transparent transition duration-300 ease-in-out">
+                @foreach ($errors -> get('nama') as $msg )
+                    <p class="text-red-500">{{ $msg }}</p>
+                @endforeach
             </div>
 
             <div class="mb-6">
                 <label for="npm" class="block text-gray-700 text-lg font-semibold mb-2">NPM:</label>
-                <input type="text" id="npm" name="npm" required
+                <input type="text" id="npm" name="npm" 
                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-300 focus:border-transparent transition duration-300 ease-in-out">
+                @foreach ($errors -> get('npm') as $msg )
+                    <p class="text-red-500">{{ $msg }} </p>
+                @endforeach
             </div>
 
             <div class="mb-6">
-                <label for="kelas" class="block text-gray-700 text-lg font-semibold mb-2">Kelas:</label>
-                <input type="text" id="kelas" name="kelas" required
-                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-300 focus:border-transparent transition duration-300 ease-in-out">
-            </div>
+                <label for="kelas_id" class="block text-gray-700 text-lg font-semibold mb-2">Kelas:</label>
+                <select name="kelas_id" id="kelas_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 focus:border-indigo-500" required>
+                    @foreach($kelas as $kelasItem)
+                        <option value="{{$kelasItem->id}}">{{$kelasItem->nama_kelas}}</option>
+                    @endforeach
+                </select>
+            </div>            
 
             <button type="submit"
                     class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-2xl hover:from-purple-600 hover:to-pink-600 transform hover:-translate-y-1 transition duration-500 ease-in-out">
