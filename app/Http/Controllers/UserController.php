@@ -6,6 +6,7 @@ use App\Models\Kelas;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use Faker\Provider\UserAgent;
 
 class UserController extends Controller
 {
@@ -88,17 +89,65 @@ class UserController extends Controller
         return redirect()->to('/user')->with('success','user berhasil ditambahkan'); 
     }
 
-    public function show($id){
-        $user = $this->userModel->getUser($id);
+    public function show($id)
+    {
+        $user = UserModel::findOrFail($id);
+        $kelas = Kelas::findOrFail($user->kelas_id);
 
-        $data = [
-            'title' => 'Profile',
-            'user' => $user,
+        $title = 'Detail' . $user->nama;
 
-        ];
-
-        return view ('profile', $data);
+        return view('show_user', compact('user','kelas','title'));
     }
+
+    // public function show($id){
+    //     $user = $this->userModel->getUser($id);
+
+    //     $data = [
+    //         'title' => 'Profile',
+    //         'user' => $user,
+
+    //     ];
+
+    //     return view ('profile', $data);
+    // }
+
+    public function edit ($id)
+    {
+        $user = UserModel::findorFail($id);
+        $kelasModel = new Kelas();
+        $kelas = $kelasModel->getKelas();
+        $title = 'Edit User';
+        return view('edit_user', compact('user','kelas','title'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = UserModel::findOrFail($id);
+
+        $user->nama = $request->nama;
+        $user->npm = $request->npm;
+        $user->kelas_id = $request->kelas_id;
+
+        if ($request->hasFile('foto')) {
+            $foto = $request->file('foto');
+            $fotoName = time() . '_' . $foto->getClientOriginalName();
+            $fotoPath = $foto->move(public_path('upload/img'), $fotoName); // Pindahkan file
+            $user->foto = $fotoName; // Simpan nama file ke database
+        }
+
+        $user->save();
+
+        return redirect()->route('user.list')->with('success', 'user updated successfully');
+    }
+
+    public function destroy($id)
+    {
+        $user = UserModel::findOrFail($id);
+        $user->delete(); // Memanggil fungsi delete
+    
+        return redirect()->route('user.list')->with('success', 'User has been deleted successfully');
+    }
+    
 
     // public function store(UserRequest $request)
     // {
