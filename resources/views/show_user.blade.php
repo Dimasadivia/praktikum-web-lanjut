@@ -6,7 +6,7 @@
         <!-- Logo Profile -->
         @php
             $defaultFoto = 'path/to/default-foto.jpg'; // Pastikan path ke foto default benar
-            $userFoto = $user->foto ? asset('upload/img/' . $user->foto) : asset($defaultFoto);
+            $userFoto = $user->foto ? asset('storage/uploads/' . $user->foto) : asset($defaultFoto);
         @endphp
 
         <!-- Foto Profil -->
