@@ -25,6 +25,7 @@ class UserRequest extends FormRequest
             'nama' => 'required|string|max:255',
             'npm' => 'required|string|max:255',
             'kelas_id' => 'required|exists:kelas,id',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }

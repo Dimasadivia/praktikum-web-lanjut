@@ -34,7 +34,7 @@
                         <td class="px-6 py-4 border-b border-gray-200 text-center">
                             @if($user->foto)
                                 <div class="flex justify-center">
-                                <img src="{{ asset('upload/img/' . $user->foto) }}" alt="Foto {{ $user->nama }}" class="w-20 h-20 object-cover rounded">
+                                    <img src="{{ asset('storage/uploads/' . $user->foto) }}" alt="Foto {{ $user->nama }}" class="w-20 h-20 object-cover rounded">
                                 </div>
                             @else
                                 <span>Tidak ada foto</span>
