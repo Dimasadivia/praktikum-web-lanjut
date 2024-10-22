@@ -16,5 +16,4 @@ class ProfileController extends Controller
               
         return view('profile', $data);
     }
-
 }
